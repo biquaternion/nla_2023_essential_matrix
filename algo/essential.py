@@ -4,7 +4,7 @@
 import numpy as np
 
 from coords import translation, diff_by_euler
-from nla_2023_essential_matrix.algo.adapters import svd
+from adapters import svd
 
 
 def calc_true_essential(loc1, rot1, loc2, rot2):
