@@ -14,6 +14,7 @@ from essential import calc_true_essential, solve_essential
 
 from config import Config
 
+
 def load_points(camera_id: int = 0) -> np.ndarray:
     filename = f'data/points_cam{camera_id}.csv'
     with open(filename) as csvfile:
@@ -32,7 +33,6 @@ def get_cam_position(config, cam_id) -> Tuple:
 
 
 if __name__ == '__main__':
-
     config = yaml.load(open('data/cam_poses.yaml'), Loader=yaml.FullLoader)
 
     intrinsic = config.intrinsic
@@ -54,13 +54,17 @@ if __name__ == '__main__':
                         [0, 0, 1]])
 
     cam_a = 0
-    cam_b = 4
+    cam_b = 3
 
     points_a = load_points(cam_a)
     points_b = load_points(cam_b)
 
-    # points_a[:, 1] = 1080 - points_a[:, 1]
-    # points_b[:, 1] = 1080 - points_b[:, 1]
+    points_a[:, 1] = 1080 - points_a[:, 1]
+    points_b[:, 1] = 1080 - points_b[:, 1]
+    points_a[:, 0] = 1920 - points_a[:, 0]
+    points_b[:, 0] = 1920 - points_b[:, 0]
+
+
 
     loc_a, ori_a = get_cam_position(config, cam_a)
     loc_b, ori_b = get_cam_position(config, cam_b)
@@ -68,7 +72,7 @@ if __name__ == '__main__':
     E0 = calc_true_essential(loc_a, ori_a, loc_b, ori_b)
     R0 = diff_by_euler(ori_a, ori_b)
     t_mat = Rotation.from_euler(seq='xyz',
-                                angles=ori_a,
+                                angles=ori_b,
                                 degrees=True).inv()
     t0 = translation(loc_a, loc_b)
     t0 = t_mat.apply(t0)
@@ -86,25 +90,28 @@ if __name__ == '__main__':
                           points_b[:8],
                           cameraMatrix=cam_mat)
 
-
     R_calc = T[1]
     t_calc = T[2]
 
     R_1 = T_1[1]
     t_1 = T_1[2]
 
-    print("R_gt")
+    print("GT")
+    print("R")
     print(R0)
-    print("R_cals")
-    print(R_calc)
-
-    print("t_gt")
+    print("t")
     norm0 = np.linalg.norm(t0)
-    print(t0 / norm0 if norm0 != 0 else np.array([0, 0, 0]))
+    print((t0 / norm0 if norm0 != 0 else np.array([0, 0, 0])).T)
+
+    print("OpenCV")
+    print("R")
+    print(R_calc)
     print("t_calc")
-    print(t_calc / np.linalg.norm(t_calc))
+    print(t_calc.T / np.linalg.norm(t_calc))
+
 
     print('solution')
+    print('R')
     print(R_1)
     print('t')
-    print(t_1 / np.linalg.norm(t_1))
+    print(t_1.T / np.linalg.norm(t_1))

@@ -45,7 +45,7 @@ def diff_by_euler(euler1: List,
     '''
     r1 = Rotation.from_euler(seq, angles=euler1, degrees=True)
     r2 = Rotation.from_euler(seq, angles=euler2, degrees=True)
-    return np.matmul(r1.as_matrix(), r2.inv().as_matrix())
+    return np.matmul(r2.inv().as_matrix(), r1.as_matrix())
 
 
 if __name__ == '__main__':
