@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from algo.coords import translation, diff_by_euler
+from coords import translation, diff_by_euler
 
 
 def calc_true_essential(loc1, rot1, loc2, rot2):

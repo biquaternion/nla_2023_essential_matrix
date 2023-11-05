@@ -9,8 +9,8 @@ import numpy as np
 import yaml
 from scipy.spatial.transform import Rotation
 
-from algo.coords import diff_by_euler, translation
-from algo.essential import calc_true_essential
+from coords import diff_by_euler, translation
+from essential import calc_true_essential
 
 def load_points(filename: str) -> np.ndarray:
     with open(filename) as csvfile:
