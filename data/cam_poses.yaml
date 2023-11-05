@@ -1,11 +1,15 @@
+--- !Config
+
 intrinsic:
   focal: 50
   width: 36
   height: 24
   width_pix: 1920
   height_pix: 1080
-cam0:
-  pos:
+
+cameras:
+
+- pos:
     x: 5
     y: -5
     z: 5
@@ -13,8 +17,8 @@ cam0:
     x: 50
     y: 15
     z: 25
-cam1:
-  pos:
+
+- pos:
     x: 3
     y: -6
     z: 6
@@ -22,8 +26,8 @@ cam1:
     x: 50
     y: 15
     z: 25
-cam2:
-  pos:
+
+- pos:
     x: 7
     y: -3
     z: 7
@@ -31,8 +35,8 @@ cam2:
     x: 45
     y: 20
     z: 45
-cam3:
-  pos:
+
+- pos:
     x: 6
     y: -4
     z: 3
@@ -40,8 +44,8 @@ cam3:
     x: 67
     y: 0
     z: 60
-cam4:
-  pos:
+
+- pos:
     x: 5
     y: -5
     z: 5

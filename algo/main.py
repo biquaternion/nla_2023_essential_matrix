@@ -10,10 +10,9 @@ import yaml
 from scipy.spatial.transform import Rotation
 
 from coords import diff_by_euler, translation
-from essential import calc_true_essential
-from nla_2023_essential_matrix.algo.coords import deg2rad
-from nla_2023_essential_matrix.algo.essential import solve_essential
+from essential import calc_true_essential, solve_essential
 
+from config import Config
 
 def load_points(camera_id: int = 0) -> np.ndarray:
     filename = f'data/points_cam{camera_id}.csv'
@@ -23,8 +22,8 @@ def load_points(camera_id: int = 0) -> np.ndarray:
         return points_arr
 
 
-def get_cam_position(cam_poses, cam_id) -> Tuple:
-    cam_pose = cam_poses[f'cam{cam_id}']
+def get_cam_position(config, cam_id) -> Tuple:
+    cam_pose = config.cameras[cam_id]
     loc = cam_pose['pos']
     loc = np.array([loc['x'], loc['y'], loc['z']])
     ori = cam_pose['euler']
@@ -33,8 +32,10 @@ def get_cam_position(cam_poses, cam_id) -> Tuple:
 
 
 if __name__ == '__main__':
-    cam_poses = yaml.safe_load(open('data/cam_poses.yaml'))
-    intrinsic = cam_poses['intrinsic']
+
+    config = yaml.load(open('data/cam_poses.yaml'), Loader=yaml.FullLoader)
+
+    intrinsic = config.intrinsic
     focal = intrinsic['focal'] if 'focal' in intrinsic else 50
     width = intrinsic['width'] if 'width' in intrinsic else 36
     height = intrinsic['height'] if 'height' in intrinsic else 24
@@ -61,8 +62,8 @@ if __name__ == '__main__':
     # points_a[:, 1] = 1080 - points_a[:, 1]
     # points_b[:, 1] = 1080 - points_b[:, 1]
 
-    loc_a, ori_a = get_cam_position(cam_poses, cam_a)
-    loc_b, ori_b = get_cam_position(cam_poses, cam_b)
+    loc_a, ori_a = get_cam_position(config, cam_a)
+    loc_b, ori_b = get_cam_position(config, cam_b)
 
     E0 = calc_true_essential(loc_a, ori_a, loc_b, ori_b)
     R0 = diff_by_euler(ori_a, ori_b)
