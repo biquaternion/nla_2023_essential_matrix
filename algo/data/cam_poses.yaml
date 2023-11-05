@@ -1,0 +1,51 @@
+intrinsic:
+  focal: 50
+  width: 36
+  height: 24
+  width_pix: 1920
+  height_pix: 1080
+cam0:
+  pos:
+    x: 5
+    y: -5
+    z: 5
+  euler:
+    x: 50
+    y: 15
+    z: 25
+cam1:
+  pos:
+    x: 3
+    y: -6
+    z: 6
+  euler:
+    x: 50
+    y: 15
+    z: 25
+cam2:
+  pos:
+    x: 7
+    y: -3
+    z: 7
+  euler:
+    x: 45
+    y: 20
+    z: 45
+cam3:
+  pos:
+    x: 6
+    y: -4
+    z: 3
+  euler:
+    x: 67
+    y: 0
+    z: 60
+cam4:
+  pos:
+    x: 5
+    y: -5
+    z: 5
+  euler:
+    x: 50
+    y: 30
+    z: 25
