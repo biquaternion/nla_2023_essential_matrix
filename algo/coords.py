@@ -43,11 +43,9 @@ def diff_by_euler(euler1: List,
     :param seq:
     :return:
     '''
-    r1 = Rotation.from_euler(seq, angles=euler1)
-    r2 = Rotation.from_euler(seq, angles=euler2)
-    # return r1.as_matrix() @ r2.inv().as_matrix()
-    # return r1.as_quat() / r2.as_quat()
-    return Rotation.concatenate([r1, r2.inv()])
+    r1 = Rotation.from_euler(seq, angles=euler1, degrees=True)
+    r2 = Rotation.from_euler(seq, angles=euler2, degrees=True)
+    return np.matmul(r1.as_matrix(), r2.inv().as_matrix())
 
 
 if __name__ == '__main__':
@@ -60,6 +58,6 @@ if __name__ == '__main__':
     print(rot_mat)
     print(np.linalg.det(rot_mat))
 
-    rot_mat = diff_by_euler([0, 0, 15 * deg2rad], [0, 0, 375 * deg2rad])
+    rot_mat = diff_by_euler([0, 0, 15 * deg2rad], [0, 0, 345 * deg2rad])
     print(rot_mat)
     print(np.linalg.det(rot_mat))
