@@ -82,12 +82,12 @@ if __name__ == '__main__':
                                    cameraMatrix=cam_mat,
                                    method=cv2.RANSAC)
 
-    E_1 = solve_essential(points_a[:8], points_b[:8], camera_matrix=cam_mat)
+    E_1 = solve_essential(points_a, points_b, camera_matrix=cam_mat)
 
     T = cv2.recoverPose(E, points_a, points_b, cameraMatrix=cam_mat)
     T_1 = cv2.recoverPose(E_1,
-                          points_a[:8],
-                          points_b[:8],
+                          points_a,
+                          points_b,
                           cameraMatrix=cam_mat)
 
     R_calc = T[1]

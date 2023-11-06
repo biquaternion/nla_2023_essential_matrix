@@ -23,11 +23,11 @@ def solve_essential(points1, points2, camera_matrix):
                     np.hstack([points1, np.ones((num_pts, 1))]).T).T
     rays_2 = np.dot(np.linalg.inv(camera_matrix),
                     np.hstack([points2, np.ones((num_pts, 1))]).T).T
-    khi = np.hstack([rays_1 * rays_2[:, 0].reshape((8, 1)),
-                     rays_1 * rays_2[:, 1].reshape((8, 1)),
-                     rays_1 * rays_2[:, 2].reshape((8, 1))])
+    khi = np.hstack([rays_1 * rays_2[:, 0].reshape((num_pts, 1)),
+                     rays_1 * rays_2[:, 1].reshape((num_pts, 1)),
+                     rays_1 * rays_2[:, 2].reshape((num_pts, 1))])
     _, _, vT_khi = svd(khi)
-    E_est = np.reshape(vT_khi.T[:, 8], (3, 3))
+    E_est = np.reshape(vT_khi.T[:, -1], (3, 3))
 
     u_E, s_E, vh_E = np.linalg.svd(E_est, full_matrices=True)
     s_E[-1] = 0
